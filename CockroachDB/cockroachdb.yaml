@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  cockroachdb:
+    image: cockroachdb/cockroach:latest
+    container_name: cockroachdb
+    hostname: cockroachdb
+    ports:
+      - "26257:26257"  # Puerto SQL
+      - "8080:8080"    # Interfaz web
+    volumes:
+      - cockroach-data:/cockroach/cockroach-data
+    command: start-single-node --insecure --advertise-addr=cockroachdb
+
+volumes:
+  cockroach-data:

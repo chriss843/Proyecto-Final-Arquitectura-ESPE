@@ -1,0 +1,45 @@
+server:
+  port: 8081
+
+spring:
+  cloud:
+    config:
+      enabled: false  # Deshabilita completamente Spring Cloud Config
+
+  application:
+    name: publications-service
+  datasource:
+    url: jdbc:postgresql://localhost:26257/publications_db?sslmode=disable
+    username: root
+    password:
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update #Crear automaticamente las tablas
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, prometheus, metrics
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  tracing:
+    sampling:
+      probability: 1.0
