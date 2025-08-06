@@ -1,0 +1,59 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: auth-service
+  datasource:
+    url: jdbc:postgresql://localhost:26257/auth_db?sslmode=disable
+    username: root
+    password:
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    config:
+      enabled: false # Deshabilitado temporalmente
+
+jwt:
+  secreto: miSecretoSuperSecreto123
+  expiracion-token: 86400000 # 24 horas
+  expiracion-refresh-token: 604800000 # 7 días
+
+eureka:
+  client:
+    register-with-eureka: true  # Registrarse en eureka
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    instance:
+      prefer-ip-address: true
+      instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+      lease-renewal-interval-in-seconds: 10
+      lease-expiration-duration-in-seconds: 30
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, prometheus, metrics
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG
+    com.academic.publications: DEBUG

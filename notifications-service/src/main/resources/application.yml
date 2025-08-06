@@ -1,21 +1,17 @@
 server:
-  port: 8081
+  port: 8083
 
 spring:
-  cloud:
-    config:
-      enabled: false  # Deshabilita completamente Spring Cloud Config
-
   application:
-    name: publications-service
+    name: notifications-service
   datasource:
-    url: jdbc:postgresql://localhost:26257/publications_db?sslmode=disable
+    url: jdbc:postgresql://localhost:26257/notifications_db?sslmode=disable
     username: root
     password:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update #Crear automaticamente las tablas
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -25,13 +21,31 @@ spring:
     port: 5672
     username: guest
     password: guest
+  mail:
+    host: smtp.example.com
+    port: 587
+    username: notificaciones@academic.com
+    password: password123
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  thymeleaf:
+    check-template-location: false
+    mode: HTML
+    encoding: UTF-8
+    cache: false
+  cloud:
+    config:
+      enabled: false
 
 eureka:
   client:
-    register-with-eureka: true  # Asegúrate que esté en true
-    fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka/
+    enabled: true
 
 management:
   endpoints:
@@ -42,6 +56,3 @@ management:
     export:
       prometheus:
         enabled: true
-  tracing:
-    sampling:
-      probability: 1.0
